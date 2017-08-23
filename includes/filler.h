@@ -25,4 +25,9 @@ typedef struct	s_game
 	t_piece		*piece;
 }				t_game;
 
+int		ft_new_game(t_game *game, t_piece *piece);
+int		ft_get_piece(t_piece *piece);
+int		ft_read_board(char ***board, size_t rows);
+int		ft_flush_lines(size_t lines);
+
 #endif
