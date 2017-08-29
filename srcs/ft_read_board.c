@@ -12,7 +12,8 @@ int	ft_read_board(char ***board, size_t rows)
 	{
 		if (get_next_line(STDIN_FILENO, &input) < 0)
 			return (-1);
-		(*board)[i] = &input[4];
+		(*board)[i] = ft_strdup(&input[4]);
+		ft_strdel(&input);
 	}
 	return (0);
 }

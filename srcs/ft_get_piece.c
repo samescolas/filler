@@ -35,16 +35,11 @@ static int	ft_get_piece_dims(t_coord *dims)
 
 int	ft_get_piece(t_piece *piece)
 {
-	int		i;
-
 	if (ft_get_piece_dims(&piece->dim) < 0)
 		return (-1);
 	if (!(piece->str = (char **)malloc(piece->dim.y * sizeof(char *))))
 		return (-1);
 	if (ft_read_piece(&piece->str, piece->dim.y) < 0)
 		return (-1);
-	i = -1;
-	while (++i < piece->dim.y - 1)
-		ft_putendl_fd(piece->str[i], 2);
 	return (0);
 }

@@ -4,10 +4,14 @@ static int	ft_play_game(t_game *game)
 {
 	int		i;
 
-	if (ft_read_board(&game->board, game->dim.y) < 0)
-		return (-1);
-	if (ft_get_piece(game->piece) < 0)
-		return (-1);
+	while (1)
+	{
+		if (ft_read_board(&game->board, game->dim.y) < 0)
+			return (-1);
+		if (ft_get_piece(game->piece) < 0)
+			return (-1);
+		write(1, "2 4", 3);
+	}
 	return (0);
 }
 
