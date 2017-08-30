@@ -3,6 +3,14 @@
 
 # include "../libft/libft.h"
 
+enum e_max
+{
+	top,
+	bottom,
+	left,
+	right
+};
+
 typedef struct	s_coord
 {
 	size_t		r;
@@ -22,13 +30,21 @@ typedef struct	s_game
 	char		marker;
 	char		oponent;
 	t_coord		dim;
+	t_coord		maxima[4];
 	char		**board;
 	t_piece		*piece;
 }				t_game;
 
+int		ft_place_tl(t_game game);
+int		ft_place_tr(t_game game);
+int		ft_place_bl(t_game game);
+int		ft_place_br(t_game game);
 int		ft_new_game(t_game *game, t_piece *piece);
 int		ft_get_piece(t_piece *piece);
 int		ft_read_board(char ***board, size_t rows);
 int		ft_flush_lines(size_t lines);
+int		ft_place_piece(t_game game);
+int		ft_valid_placement(t_game game, t_coord pos);
+void	ft_set_maxima(t_game *game);
 
 #endif

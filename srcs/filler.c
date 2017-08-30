@@ -1,35 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   filler.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sescolas <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/08/30 15:25:00 by sescolas          #+#    #+#             */
+/*   Updated: 2017/08/30 15:25:00 by sescolas         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "filler.h"
-
-static int	ft_valid_placement(t_game game, t_coord pos)
-{
-	int		i;
-	int		j;
-	int		adjacent_pieces;
-
-	if (pos.r + game.piece->dim.r > game.dim.r || pos.c + game.piece->dim.c > game.dim.c)
-		return (0);
-	adjacent_pieces = 0;
-	i = -1;
-	while (++i < game.piece->dim.r)
-	{
-		j = -1;
-		while (++j < game.piece->dim.c)
-		{
-			if (game.piece->str[i][j] == '.')
-				continue ;
-			if (game.board[pos.r + i][pos.c + j] == '.')
-				continue ;
-			else if (ft_toupper(game.board[pos.r + i][pos.c + j]) == game.marker)
-			{
-				if (++adjacent_pieces > 1)
-					return (0);
-			}
-			else if (ft_toupper(game.board[pos.r + i][pos.c + j]) == game.oponent)
-				return (0);
-		}
-	}
-	return (adjacent_pieces == 1);
-}
 
 static void	ft_print_piece(t_piece piece)
 {
@@ -41,41 +22,56 @@ static void	ft_print_piece(t_piece piece)
 		ft_putendl_fd(piece.str[i], 2);
 }
 
-static int ft_place_piece(t_game game)
+void	ft_set_maxima(t_game *game)
 {
-	t_coord	placement;
+	int		rows;
+	int		cols;
+	int		unset[4];
 
-	placement.r = 0;
-	placement.c = 0;
-	while (placement.r < game.dim.r)
+	rows = -1;
+	unset[top] = 1;
+	unset[bottom] = 1;
+	unset[left] = 1;
+	unset[right] = 1;
+	while (++rows < game->dim.r)
 	{
-		placement.c = 0;
-		while (placement.c < game.dim.c)
+		cols = -1;
+		while (++cols < game->dim.c)
 		{
-			if (ft_valid_placement(game, placement))
+			if (ft_toupper(game->board[rows][cols]) == game->marker)
 			{
-				ft_putnbr(placement.r);
-				write(1, " ", 1);
-				ft_putnbr(placement.c);
-				write(1, "\n", 1);
-				return (1);
+				if (unset[top])
+				{
+					game->maxima[top].r = rows;
+					game->maxima[top].c = cols;
+				}
+				game->maxima[bottom].r = rows;
+				game->maxima[bottom].c = cols;
+				if (unset[left])
+				{
+					game->maxima[left].r = rows;
+					game->maxima[left].c = cols;
+				}
+				if (cols > game->maxima[right].c)
+				{
+					game->maxima[right].r = rows;
+					game->maxima[right].c = cols;
+				}
 			}
-			placement.c += 1;
 		}
-		placement.r += 1;
 	}
-	return (-1);
 }
-
 static int	ft_play_turn(t_game *game)
 {
-	int		i;
-	int		waiting;
+	static int	first = 1;
 
 	while (ft_read_board(&game->board, game->dim.r) < 0)
 		continue;
+	if (first--)
+		ft_set_maxima(game);
 	if (ft_get_piece(game->piece) < 0)
 		return (-1);
+	ft_set_maxima(game);
 	return (ft_place_piece(*game));
 }
 
