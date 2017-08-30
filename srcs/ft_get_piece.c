@@ -22,12 +22,12 @@ static int	ft_get_piece_dims(t_coord *dims)
 	if (get_next_line(STDIN_FILENO, &input) < 0)
 		return (-1);
 	if (ft_strlen(input) > 6 && ft_isdigit(input[6]))
-		dims->y = ft_atoi(&input[6]);
+		dims->r = ft_atoi(&input[6]);
 	else
 		return (-1);
 	if ((input = ft_strchr(&input[6], ' ')) && ft_isdigit(*(input + 1)))
 	{
-		dims->x = ft_atoi(input);
+		dims->c = ft_atoi(input);
 		return (0);
 	}
 	return (-1);
@@ -35,11 +35,13 @@ static int	ft_get_piece_dims(t_coord *dims)
 
 int	ft_get_piece(t_piece *piece)
 {
+	char	*input;
+
 	if (ft_get_piece_dims(&piece->dim) < 0)
 		return (-1);
-	if (!(piece->str = (char **)malloc(piece->dim.y * sizeof(char *))))
+	if (!(piece->str = (char **)malloc(piece->dim.r * sizeof(char *))))
 		return (-1);
-	if (ft_read_piece(&piece->str, piece->dim.y) < 0)
+	if (ft_read_piece(&piece->str, piece->dim.r) < 0)
 		return (-1);
 	return (0);
 }

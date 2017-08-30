@@ -13,12 +13,12 @@ LINK = -L libft -lft
 
 DIRS = .objs
 
-all : $(DIRS) $(NAME)
+all : $(NAME)
 
 $(DIRS) :
 	mkdir -p $(DIRS)
 
-$(NAME) : $(OBJS) $(HEADER)
+$(NAME) : $(DIRS) $(OBJS) $(HEADER)
 	$(CC) .objs/*.o $(LINK) -o $@
 
 .objs/%.o : srcs/%.c $(LIBFT)

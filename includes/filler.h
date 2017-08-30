@@ -5,8 +5,8 @@
 
 typedef struct	s_coord
 {
-	size_t		x;
-	size_t		y;
+	size_t		r;
+	size_t		c;
 }				t_coord;
 
 typedef struct	s_piece
@@ -20,6 +20,7 @@ typedef struct	s_game
 {
 	char		player;
 	char		marker;
+	char		oponent;
 	t_coord		dim;
 	char		**board;
 	t_piece		*piece;
