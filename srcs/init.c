@@ -36,10 +36,12 @@ int	ft_new_game(t_game *game, t_piece *piece)
 	piece->dim.c = 0;
 	piece->pos.r = 0;
 	piece->pos.c = 0;
+	game->changed.r = 0;
+	game->changed.c = 0;
 	if ((game->player = ft_get_player_number()) < 0)
 		return (-1);
 	game->marker = (game->player == 1 ? 'O' : 'X');
-	game->oponent = (game->player == 1 ? 'X' : 'O');
+	game->opponent = (game->player == 1 ? 'X' : 'O');
 	if (ft_get_board_dims(&game->dim) < 0)
 		return (-1);
 	if (!(game->board = (char **)malloc(game->dim.r * sizeof(char *))))

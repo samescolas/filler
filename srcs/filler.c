@@ -6,7 +6,7 @@
 /*   By: sescolas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/30 15:25:00 by sescolas          #+#    #+#             */
-/*   Updated: 2017/08/30 15:25:00 by sescolas         ###   ########.fr       */
+/*   Updated: 2017/08/30 19:27:28 by sescolas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,56 +22,75 @@ static void	ft_print_piece(t_piece piece)
 		ft_putendl_fd(piece.str[i], 2);
 }
 
-void	ft_set_maxima(t_game *game)
+static void	assign_bounds(t_coord *bounds, int row, int col, char *set)
 {
-	int		rows;
-	int		cols;
-	int		unset[4];
-
-	rows = -1;
-	unset[top] = 1;
-	unset[bottom] = 1;
-	unset[left] = 1;
-	unset[right] = 1;
-	while (++rows < game->dim.r)
+	ft_putendl_fd("inside assign bounds", 2);
+	if (!set[top])
 	{
-		cols = -1;
-		while (++cols < game->dim.c)
-		{
-			if (ft_toupper(game->board[rows][cols]) == game->marker)
-			{
-				if (unset[top])
-				{
-					game->maxima[top].r = rows;
-					game->maxima[top].c = cols;
-				}
-				game->maxima[bottom].r = rows;
-				game->maxima[bottom].c = cols;
-				if (unset[left])
-				{
-					game->maxima[left].r = rows;
-					game->maxima[left].c = cols;
-				}
-				if (cols > game->maxima[right].c)
-				{
-					game->maxima[right].r = rows;
-					game->maxima[right].c = cols;
-				}
-			}
-		}
+		bounds[top].r = row;
+		bounds[top].c = col;
+		set[top] = 1;
+	}
+	if (!set[left] || col < bounds[left].r)
+	{
+		bounds[left].r = row;
+		bounds[left].c = col;
+		set[left] = 1;
+	}
+	bounds[bottom].r = row;
+	bounds[bottom].c = col;
+	if (!set[right] || col > bounds[right].c)
+	{
+		bounds[right].r = row;
+		bounds[right].c = col;
+		set[right] = 1;
+	}
+	ft_putendl_fd("leaving assign bounds", 2);
+}
+
+void	ft_set_bounds(t_game *game, t_coord *bounds, char marker)
+{
+	int			row;
+	int			col;
+	char		set[4];
+
+	set[top] = 0;
+	set[left] = 0;
+	set[right] = 0;
+	row = -1;
+	while (++row < game->dim.r)
+	{
+		col = -1;
+		while (++col < game->dim.c)
+			if (ft_toupper(game->board[row][col]) == marker)
+				assign_bounds(bounds, row, col, (char *)&set);
 	}
 }
+
 static int	ft_play_turn(t_game *game)
 {
 	static int	first = 1;
 
-	while (ft_read_board(&game->board, game->dim.r) < 0)
+	while (ft_read_board(game))
 		continue;
-	if (first--)
-		ft_set_maxima(game);
+	ft_putstr_fd("changed: [", 2);
+	ft_putnbr_fd(game->changed.r, 2);
+	ft_putchar_fd(',', 2);
+	ft_putnbr_fd(game->changed.c, 2);
+	ft_putstr_fd("]\n", 2);
+	ft_putendl_fd("Getting piece", 2);
 	if (ft_get_piece(game->piece) < 0)
 		return (-1);
-	ft_set_maxima(game);
+	ft_putendl_fd("Got piece", 2);
+	if (first)
+	{
+		first = 0;
+		return (ft_place_piece(*game));
+	}
+	ft_set_bounds(game, (t_coord *)&game->bounds_me, ft_toupper(game->marker));
+	ft_putendl_fd("Settings bounds 2", 2);
+	ft_set_bounds(game, (t_coord *)&game->bounds_op, ft_toupper(game->opponent));
+	ft_putendl_fd("Set bounds 2", 2);
 	return (ft_place_piece(*game));
 }
 

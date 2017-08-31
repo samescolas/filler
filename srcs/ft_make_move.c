@@ -6,7 +6,7 @@
 /*   By: sescolas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/30 15:24:55 by sescolas          #+#    #+#             */
-/*   Updated: 2017/08/30 15:31:08 by sescolas         ###   ########.fr       */
+/*   Updated: 2017/08/30 18:16:48 by sescolas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	ft_count_distance_r(t_game game, t_coord pos)
 		if (ft_strfind(game.piece->str[row], '*') > width)
 				width = ft_strfind(game.piece->str[row], '*');
 	}
-	return (game.maxima[right].r - pos.r + width);
+	return (game.bounds_me[right].r - pos.r + width);
 }
 
 static int	ft_place_right(t_game game)
