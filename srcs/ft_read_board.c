@@ -7,7 +7,6 @@ int	ft_read_board(t_game *game)
 	int			i;
 	int			set;
 
-	ft_putendl_fd("entering  read_board", 2);
 	set = 0;
 	i = -1;
 	while (++i < game->dim.r)
@@ -19,14 +18,10 @@ int	ft_read_board(t_game *game)
 			if (ft_flush_lines(1) < 0 || get_next_line(STDIN_FILENO, &input) < 0)
 				return (-1);
 		}
-		ft_putendl_fd("here!", 2);
-		if (!first)
-			ft_putendl_fd("NOT FIRST", 2);
 		if (!first && ft_strcount(input, game->opponent) > ft_strcount(game->board[i], game->opponent))
 		{
 			game->changed.r = i;
 			game->changed.c = 0;
-			ft_putendl_fd("checking for row...", 2);
 			while (game->changed.c < game->dim.c)
 			{
 				if (input[4 + game->changed.c] == game->opponent &&
@@ -35,8 +30,9 @@ int	ft_read_board(t_game *game)
 				set = 1;
 			}
 		}
+		game->board[i] = ft_strdup(&input[4]);
+		ft_strdel(&input);
 	}
-	ft_putendl_fd("leaving read_board", 2);
 	return ((first = 0));
 }
 

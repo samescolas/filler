@@ -24,7 +24,6 @@ static void	ft_print_piece(t_piece piece)
 
 static void	assign_bounds(t_coord *bounds, int row, int col, char *set)
 {
-	ft_putendl_fd("inside assign bounds", 2);
 	if (!set[top])
 	{
 		bounds[top].r = row;
@@ -45,7 +44,6 @@ static void	assign_bounds(t_coord *bounds, int row, int col, char *set)
 		bounds[right].c = col;
 		set[right] = 1;
 	}
-	ft_putendl_fd("leaving assign bounds", 2);
 }
 
 void	ft_set_bounds(t_game *game, t_coord *bounds, char marker)
@@ -88,9 +86,7 @@ static int	ft_play_turn(t_game *game)
 		return (ft_place_piece(*game));
 	}
 	ft_set_bounds(game, (t_coord *)&game->bounds_me, ft_toupper(game->marker));
-	ft_putendl_fd("Settings bounds 2", 2);
 	ft_set_bounds(game, (t_coord *)&game->bounds_op, ft_toupper(game->opponent));
-	ft_putendl_fd("Set bounds 2", 2);
 	return (ft_place_piece(*game));
 }
 
