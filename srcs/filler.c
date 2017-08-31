@@ -6,7 +6,7 @@
 /*   By: sescolas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/30 15:25:00 by sescolas          #+#    #+#             */
-/*   Updated: 2017/08/30 19:27:28 by sescolas         ###   ########.fr       */
+/*   Updated: 2017/08/31 10:46:23 by sescolas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,15 +71,8 @@ static int	ft_play_turn(t_game *game)
 
 	while (ft_read_board(game))
 		continue;
-	ft_putstr_fd("changed: [", 2);
-	ft_putnbr_fd(game->changed.r, 2);
-	ft_putchar_fd(',', 2);
-	ft_putnbr_fd(game->changed.c, 2);
-	ft_putstr_fd("]\n", 2);
-	ft_putendl_fd("Getting piece", 2);
 	if (ft_get_piece(game->piece) < 0)
 		return (-1);
-	ft_putendl_fd("Got piece", 2);
 	if (first)
 	{
 		first = 0;

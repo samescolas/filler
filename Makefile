@@ -11,23 +11,26 @@ LIBFT = libft/libft.a
 LIB_DEPS = $(wildcard libft/*.c$)
 LINK = -L libft -lft
 
-DIRS = .objs
+DIRS = ./.objs
 
 all : $(NAME)
+
+$(NAME) :$(OBJS) $(HEADER)
+	$(CC) .objs/*.o $(LINK) -o $@
+
+.objs/%.o : srcs/%.c $(LIBFT) $(DIRS)
+	$(CC) -Iincludes -c -o $@ $<
 
 $(DIRS) :
 	mkdir -p $(DIRS)
 
-$(NAME) : $(DIRS) $(OBJS) $(HEADER)
-	$(CC) .objs/*.o $(LINK) -o $@
-
-.objs/%.o : srcs/%.c $(LIBFT)
-	$(CC) -Iincludes -c -o $@ $<
-
 $(LIBFT) : $(LIB_DEPS)
 	make -C libft
 
-.PHONY : clean fclean re $(DIRS)
+.PHONY : clean fclean re $(DIRS) print
+
+print :
+	@echo $(OBJS)
 
 clean :
 	rm -f libft/*\.o$
