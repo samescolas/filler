@@ -1,48 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_read_board.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sescolas <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/08/31 15:59:29 by sescolas          #+#    #+#             */
+/*   Updated: 2017/08/31 20:36:39 by sescolas         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "filler.h"
 
-int	ft_read_board(t_game *game)
+int		ft_read_board(char ***board, size_t rows, int first)
 {
-	static int	first = 1;
-	char		*input;
-	int			i;
-	int			set;
+	char	*input;
+	int		i;
+	int		seeking;
 
-	set = 0;
-	i = -1;
-	while (++i < game->dim.r)
-	{
-		if (get_next_line(STDIN_FILENO, &input) < 0)
-			return (-1);
-		if (ft_strncmp(input, "Plateau", 7) == 0)
-		{
-			if (ft_flush_lines(1) < 0 || get_next_line(STDIN_FILENO, &input) < 0)
-				return (-1);
-		}
-		if (!first && ft_strcount(input, game->opponent) > ft_strcount(game->board[i], game->opponent))
-		{
-			game->changed.r = i;
-			game->changed.c = 0;
-			while (game->changed.c < game->dim.c)
-			{
-				if (input[4 + game->changed.c] == game->opponent &&
-							game->board[i][game->changed.c] != game->opponent)
-					break ;
-				set = 1;
-			}
-		}
-		game->board[i] = ft_strdup(&input[4]);
-		ft_strdel(&input);
-	}
-	return ((first = 0));
-}
-
-/*
-int	ft_read_board(char ***board, size_t rows, t_coord *changed)
-{
-	static int	first = 1;
-	char		*input;
-	int			i;
-
+	seeking = 1;
 	i = -1;
 	while (++i < rows)
 	{
@@ -50,27 +26,16 @@ int	ft_read_board(char ***board, size_t rows, t_coord *changed)
 			return (-1);
 		if (ft_strncmp(input, "Plateau", 7) == 0)
 		{
-			if (ft_flush_lines(1) < 0 || get_next_line(STDIN_FILENO, &input) < 0)
+			if (ft_flush_lines(1) < 0 ||
+							get_next_line(STDIN_FILENO, &input) < 0)
 				return (-1);
 		}
-		if (!first && ft_strchr(input, 'x'))
+		if (seeking && !first && ft_strcmp((*board)[i], &input[4]) != 0)
 		{
-			ft_putstr_fd("FOUND ONE\n", 2);
-			changed->r = i;
-			changed->c = ft_strfind(input, 'x');;
-		}
-		else if (!first && (*board)[i])
-		{
-			ft_putstr_fd("Old: ", 2);
-			ft_putendl_fd((*board)[i], 2);
-			ft_putstr_fd("New: ", 2);
-			ft_putendl_fd(&input[4], 2);
+			seeking = 0;
 		}
 		(*board)[i] = ft_strdup(&input[4]);
 		ft_strdel(&input);
 	}
-	first = 0;
 	return (0);
 }
-*/
-

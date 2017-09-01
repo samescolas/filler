@@ -6,7 +6,7 @@
 /*   By: sescolas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/30 15:25:10 by sescolas          #+#    #+#             */
-/*   Updated: 2017/08/30 15:25:11 by sescolas         ###   ########.fr       */
+/*   Updated: 2017/08/31 20:36:49 by sescolas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int	ft_get_piece_dims(t_coord *dims)
 	return (-1);
 }
 
-int	ft_get_piece(t_piece *piece)
+int			ft_get_piece(t_piece *piece)
 {
 	char	*input;
 

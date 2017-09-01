@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sescolas <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/08/31 20:36:58 by sescolas          #+#    #+#             */
+/*   Updated: 2017/08/31 20:37:01 by sescolas         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "filler.h"
 
 static int	ft_get_player_number(void)
@@ -30,14 +42,13 @@ static int	ft_get_board_dims(t_coord *dims)
 	return (-1);
 }
 
-int	ft_new_game(t_game *game, t_piece *piece)
+int			ft_new_game(t_game *game, t_piece *piece)
 {
 	piece->dim.r = 0;
 	piece->dim.c = 0;
 	piece->pos.r = 0;
 	piece->pos.c = 0;
-	game->changed.r = 0;
-	game->changed.c = 0;
+	game->first_turn = 1;
 	if ((game->player = ft_get_player_number()) < 0)
 		return (-1);
 	game->marker = (game->player == 1 ? 'O' : 'X');
