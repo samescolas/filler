@@ -8,17 +8,12 @@ SRCS = $(shell ls srcs/*.c$)
 OBJS = $(subst srcs/,.objs/,$(SRCS:.c=.o))
 
 LIBFT = libft/libft.a
-LIB_DEPS = $(wildcard libft/*.c$)
+LIB_DEPS = $(shell ls libft/*.c$)
 LINK = -L libft -lft
-
-DIRS = .objs
 
 all : $(NAME)
 
-$(DIRS) :
-	mkdir -p $(DIRS)
-
-$(NAME) : $(DIRS) $(OBJS) $(HEADER)
+$(NAME) : $(OBJS) $(HEADER)
 	$(CC) .objs/*.o $(LINK) -o $@
 
 .objs/%.o : srcs/%.c $(LIBFT)
@@ -27,7 +22,7 @@ $(NAME) : $(DIRS) $(OBJS) $(HEADER)
 $(LIBFT) : $(LIB_DEPS)
 	make -C libft
 
-.PHONY : clean fclean re $(DIRS)
+.PHONY : clean fclean re
 
 clean :
 	rm -f libft/*\.o$
