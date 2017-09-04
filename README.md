@@ -5,7 +5,7 @@ executable with the hopes of beating the other players.
 
 ## To play:
 
-To run the game ./resources/filler_vm -p1 (INSERT PLAYER1 HERE) -p2 (INSERT PLAYER2 HERE) -f (MAP)
+./resources/filler_vm -p1 (INSERT PLAYER1 HERE) -p2 (INSERT PLAYER2 HERE) -f (MAP)
 
 Maps are located in .resources/maps, players are located in ./resources/players.
 
