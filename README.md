@@ -7,6 +7,6 @@ executable with the hopes of beating the other players.
 
 ./resources/filler_vm -p1 (INSERT PLAYER1 HERE) -p2 (INSERT PLAYER2 HERE) -f (MAP)
 
-Maps are located in .resources/maps, players are located in ./resources/players.
+Maps are located in .resources/maps and players are located in ./resources/players.
 
 Makefile compiles to the same player as ./resources/me.
